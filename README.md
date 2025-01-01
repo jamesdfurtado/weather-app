@@ -20,7 +20,7 @@ git clone https://github.com/jamesdfurtado/weather-app.git
 ## **2. Navigate to the Project Directory**
 Move into the project folder:  
 ```bash
-cd weather-app
+cd weather-app/frontend
 ```
 
 ## **3. Install Dependencies**
