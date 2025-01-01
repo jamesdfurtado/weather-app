@@ -31,7 +31,7 @@ npm start
 ```
 
 ## **5. Open in Browser**
-The app should automatically open your browser. If not copy the following link and open it in your preffered broweser:  
+The app should automatically open your browser. If not copy the following link and open it in your preferred broweser:  
 ```
 http://localhost:3000
 ```
