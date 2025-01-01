@@ -35,7 +35,3 @@ The app should automatically open your browser. If not copy the following link a
 ```
 http://localhost:3000
 ```
-
----
-
-Let me know if you need help adding additional details or modifying these instructions!
