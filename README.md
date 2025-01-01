@@ -1,4 +1,9 @@
-A full-stack weather app!
+A full-stack weather app! (WIP)
+
+Stack:
+  React.js: Frontend
+  Java:     Backend
+  MySQL:    Database
 
 It is not fully functional just yet, but feel free to clone and view the UI:
 
