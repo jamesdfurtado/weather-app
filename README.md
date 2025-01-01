@@ -4,7 +4,7 @@ It is not fully functional just yet, but feel free to clone and view the UI:
 
 ---
 
-# **Weather App Setup Guide**
+# **Installation Guide**
 
 ## **1. Clone the Repository**
 Run the following command in your terminal to clone the project:  
