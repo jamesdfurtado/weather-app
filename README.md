@@ -1,8 +1,6 @@
 A full-stack weather app!
 
 It is not fully functional just yet, but feel free to clone and view the UI:
- 
-Here's a concise instruction guide for setting up and running your weather app:  
 
 ---
 
