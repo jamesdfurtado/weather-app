@@ -8,8 +8,6 @@ Here's a concise instruction guide for setting up and running your weather app:
 
 # **Weather App Setup Guide**
 
-Follow these steps to clone, set up, and run the Weather App:  
-
 ## **1. Clone the Repository**
 Run the following command in your terminal to clone the project:  
 ```bash
@@ -23,7 +21,7 @@ cd weather-app
 ```
 
 ## **3. Install Dependencies**
-Ensure you have Node.js installed, then run:  
+Ensure you have Node.js installed:  
 ```bash
 npm install
 ```
@@ -35,7 +33,7 @@ npm start
 ```
 
 ## **5. Open in Browser**
-Once the app starts, open your browser and go to:  
+The app should automatically open your browser. If not copy the following link and open it in your preffered broweser:  
 ```
 http://localhost:3000
 ```
