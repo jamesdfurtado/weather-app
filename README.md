@@ -1,13 +1,14 @@
 A full-stack weather app! (WIP)
 
+Currently, you can open the app and see your current location's weather, as well as other cities.
+More to be implemented soon.
+
 Stack:
   React.js: Frontend
   
   Java:     Backend
   
   MySQL:    Database
-
-It is not fully functional just yet, but feel free to clone and view the UI:
 
 ---
 
