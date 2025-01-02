@@ -32,29 +32,10 @@ function App() {
     setCurrentDateTime(dateTimeString);
   };
 
-  // Function to get user's location
-  const getUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        
-        // For now, just set a default message with latitude and longitude
-        setCurrentLocation(`Lat: ${latitude}, Lon: ${longitude}`);
-      }, (error) => {
-        console.log("Error getting location: ", error);
-        setCurrentLocation("Unable to retrieve location");
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-      setCurrentLocation("Geolocation not supported");
-    }
-  };
-
   // Set up interval to update the date and time
   useEffect(() => {
     updateCurrentDateTime(); // Set the initial value
     const intervalId = setInterval(updateCurrentDateTime, 1000); // Update every second
-    getUserLocation(); // Get user's location when component mounts
 
     // Cleanup the interval on component unmount
     return () => clearInterval(intervalId);
@@ -77,24 +58,17 @@ function App() {
           condition={currentCondition}
           high={currentHigh}
           low={currentLow}
-          currentDateTime={currentDateTime} // Pass the current date and time
         />
 
         <hr />
 
         {/* Hourly Forecast */}
-        <HourlyForecast
-          placeholderTemp={placeholderTemp}
-          currentDateTime={currentDateTime} // Pass the current date and time
-        />
+        <HourlyForecast placeholderTemp={placeholderTemp} />
 
         <hr />
 
         {/* 5-Day Forecast */}
-        <FiveDayForecast
-          forecastData={forecastData} // Pass the sample forecast data
-          currentDateTime={currentDateTime} // Pass the current date and time
-        />
+        <FiveDayForecast forecastData={forecastData} />
       </main>
     </div>
   );
