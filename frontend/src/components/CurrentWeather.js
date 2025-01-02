@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CurrentWeather({ location, temp, condition, high, low }) {
+function CurrentWeather({ location, temp, condition, high, low, currentDateTime }) {
   return (
     <div className="current-data">
       <h1 className="location">{location}</h1>
