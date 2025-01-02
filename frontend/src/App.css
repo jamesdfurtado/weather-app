@@ -19,17 +19,44 @@ main {
 }
 
 
-/* Zipcode Input Bar */
-.zip-input-container {
-  margin-bottom: 20px;
-  text-align: center;
+/* Search Bar */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto; /* Adjust spacing as needed */
+  width: 100%;
+  max-width: 400px; /* Limit the width of the search bar */
 }
 
-.zip-input-container input {
+.search-input {
+  flex: 1;
   padding: 10px;
-  width: 200px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* City not found */
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
 }
 
 

@@ -1,38 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import CurrentWeather from './components/CurrentWeather';
-import ApiCall from './components/ApiCall'; // Keep ApiCall component
+import ApiCall from './components/ApiCall';
+import SearchBar from './components/SearchBar';
 
 function App() {
-  // Minimal state variables; initialized with default values.
   const [currentDateTime, setCurrentDateTime] = useState("");
   const [weatherData, setWeatherData] = useState(null);
+  const [cityQuery, setCityQuery] = useState("");
+  const [error, setError] = useState(null); // Add error state here
 
-  // Function to update the current date and time
   const updateCurrentDateTime = () => {
     const now = new Date();
-    const dateTimeString = now.toLocaleString(); // Format date and time
+    const dateTimeString = now.toLocaleString();
     setCurrentDateTime(dateTimeString);
   };
 
-  // Fetch weather data once API call is successful
   const handleApiDataRetrieved = (city, temp, condition, high, low, iconCode) => {
-    setWeatherData({
-      location: city,
-      temp: temp,
-      condition: condition,
-      high: high,
-      low: low,
-      iconCode: iconCode, // Store the icon code
-    });
+    setWeatherData({ location: city, temp, condition, high, low, iconCode });
   };
 
-  // Set up interval to update the date and time
-  useEffect(() => {
-    updateCurrentDateTime(); // Set the initial value
-    const intervalId = setInterval(updateCurrentDateTime, 1000); // Update every second
+  const handleSearch = (city) => {
+    setCityQuery(city); // Update city query for ApiCall
+  };
 
-    // Cleanup the interval on component unmount
+  useEffect(() => {
+    updateCurrentDateTime();
+    const intervalId = setInterval(updateCurrentDateTime, 1000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -46,10 +40,13 @@ function App() {
       </header>
 
       <main>
-        {/* Fetch the user's location and weather */}
-        <ApiCall onApiDataRetrieved={handleApiDataRetrieved} />
-
-        {/* Only render the current weather after it's available */}
+        <SearchBar onSearch={handleSearch} />
+        <ApiCall 
+          onApiDataRetrieved={handleApiDataRetrieved} 
+          cityQuery={cityQuery} 
+          setError={setError} // Pass error handler to ApiCall
+        />
+        {error && <p className="error-message">{error}</p>} {/* Display error under SearchBar */}
         {weatherData && (
           <CurrentWeather
             location={weatherData.location}
@@ -57,7 +54,7 @@ function App() {
             condition={weatherData.condition}
             high={weatherData.high}
             low={weatherData.low}
-            iconCode={weatherData.iconCode} // Pass the icon code to CurrentWeather
+            iconCode={weatherData.iconCode}
           />
         )}
       </main>
