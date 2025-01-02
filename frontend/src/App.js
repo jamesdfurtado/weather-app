@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import CurrentWeather from './components/CurrentWeather';
-import HourlyForecast from './components/HourlyForecast';
-import FiveDayForecast from './components/FiveDayForecast';
-import CurrentLocation from './components/CurrentLocation'; // Import the new component
+import ApiCall from './components/ApiCall'; // Keep ApiCall component
 
 function App() {
-  // Current day data
-  const [currentLocation, setCurrentLocation] = useState("Boston");
-  const [currentTemp, setCurrentTemp] = useState(48);
-  const [currentCondition, setCurrentCondition] = useState("Windy");
-  const [currentHigh, setCurrentHigh] = useState(51);
-  const [currentLow, setCurrentLow] = useState(43);
-  const [placeholderTemp, setPlaceholderTemp] = useState(36);
-
-  // Sample 5-day forecast data
-  const forecastData = [
-    { name: "Today", icon: "/path/to/icon1.png", high: 76, low: 65, condition: "sunny" },
-    { name: "Tomorrow", icon: "/path/to/icon2.png", high: 72, low: 60, condition: "cloudy" },
-    { name: "Wed", icon: "/path/to/icon3.png", high: 80, low: 68, condition: "rainy" },
-    { name: "Thu", icon: "/path/to/icon4.png", high: 78, low: 66, condition: "partly cloudy" },
-    { name: "Fri", icon: "/path/to/icon5.png", high: 75, low: 64, condition: "sunny" },
-  ];
-
-  // Date and time state
+  // Minimal state variables; initialized with default values.
   const [currentDateTime, setCurrentDateTime] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
 
   // Function to update the current date and time
   const updateCurrentDateTime = () => {
     const now = new Date();
     const dateTimeString = now.toLocaleString(); // Format date and time
     setCurrentDateTime(dateTimeString);
+  };
+
+  // Fetch weather data once API call is successful
+  const handleApiDataRetrieved = (city, temp, condition, high, low, iconCode) => {
+    setWeatherData({
+      location: city,
+      temp: temp,
+      condition: condition,
+      high: high,
+      low: low,
+      iconCode: iconCode, // Store the icon code
+    });
   };
 
   // Set up interval to update the date and time
@@ -42,11 +36,6 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Callback to handle location retrieved by CurrentLocation
-  const handleLocationRetrieved = (city) => {
-    setCurrentLocation(city);
-  };
-
   return (
     <div className="App">
       <header className="App-header">
@@ -57,27 +46,20 @@ function App() {
       </header>
 
       <main>
-        {/* Fetch the user's current location */}
-        <CurrentLocation onLocationRetrieved={handleLocationRetrieved} />
+        {/* Fetch the user's location and weather */}
+        <ApiCall onApiDataRetrieved={handleApiDataRetrieved} />
 
-        {/* Current Weather */}
-        <CurrentWeather
-          location={currentLocation}
-          temp={currentTemp}
-          condition={currentCondition}
-          high={currentHigh}
-          low={currentLow}
-        />
-
-        <hr />
-
-        {/* Hourly Forecast */}
-        <HourlyForecast placeholderTemp={placeholderTemp} currentDateTime={currentDateTime} />
-
-        <hr />
-
-        {/* 5-Day Forecast */}
-        <FiveDayForecast forecastData={forecastData} />
+        {/* Only render the current weather after it's available */}
+        {weatherData && (
+          <CurrentWeather
+            location={weatherData.location}
+            temp={weatherData.temp}
+            condition={weatherData.condition}
+            high={weatherData.high}
+            low={weatherData.low}
+            iconCode={weatherData.iconCode} // Pass the icon code to CurrentWeather
+          />
+        )}
       </main>
     </div>
   );
