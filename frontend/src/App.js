@@ -3,6 +3,7 @@ import './App.css';
 import CurrentWeather from './components/CurrentWeather';
 import HourlyForecast from './components/HourlyForecast';
 import FiveDayForecast from './components/FiveDayForecast';
+import CurrentLocation from './components/CurrentLocation'; // Import the new component
 
 function App() {
   // Current day data
@@ -41,6 +42,11 @@ function App() {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Callback to handle location retrieved by CurrentLocation
+  const handleLocationRetrieved = (city) => {
+    setCurrentLocation(city);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -51,6 +57,9 @@ function App() {
       </header>
 
       <main>
+        {/* Fetch the user's current location */}
+        <CurrentLocation onLocationRetrieved={handleLocationRetrieved} />
+
         {/* Current Weather */}
         <CurrentWeather
           location={currentLocation}
@@ -63,7 +72,7 @@ function App() {
         <hr />
 
         {/* Hourly Forecast */}
-        <HourlyForecast placeholderTemp={placeholderTemp} />
+        <HourlyForecast placeholderTemp={placeholderTemp} currentDateTime={currentDateTime} />
 
         <hr />
 

@@ -1,24 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import apiKeys from './apiKeys';  // Ensure this file contains your OpenWeatherMap API key
 
-function CurrentLocation({ lat, lon }) {
-  const [city, setCity] = useState("Loading...");
+function CurrentLocation({ onLocationRetrieved }) {
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCity = async () => {
-      const api_call = await fetch(
-        `${apiKeys.base}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKeys.key}`
-      );
-      const data = await api_call.json();
-      setCity(data.name); // Extract city name from API response
+    const fetchCityName = async (latitude, longitude) => {
+      try {
+        const apiKey = "df8d0bb7c93415bde0e26eff0f02a823"; // Replace with your OpenWeatherMap API key
+        const response = await fetch(
+          `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${apiKey}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch city name");
+        }
+
+        const data = await response.json();
+
+        if (data && data.length > 0 && data[0].name) {
+          onLocationRetrieved(data[0].name); // Pass the city name back to App.js
+        } else {
+          setError("Unable to retrieve city name");
+        }
+      } catch (err) {
+        setError("Error fetching city name");
+      }
     };
 
-    if (lat && lon) {
-      fetchCity();
-    }
-  }, [lat, lon]); // Re-run the effect when lat or lon changes
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            fetchCityName(latitude, longitude);
+          },
+          () => setError("Unable to retrieve your location")
+        );
+      } else {
+        setError("Geolocation is not supported by your browser");
+      }
+    };
 
-  return <span>{city}</span>;
+    getLocation();
+  }, [onLocationRetrieved]);
+
+  return (
+    <div>
+      {error && <p className="error">{error}</p>}
+    </div>
+  );
 }
 
 export default CurrentLocation;
