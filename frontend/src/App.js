@@ -36,7 +36,7 @@ function App() {
 
   // Fetch the test message from the backend
   useEffect(() => {
-    axios.get('http://localhost:8080/test')  // Make GET request to your backend
+    axios.get('http://localhost:8080/test')  // Make GET request to backend
       .then(response => {
         setTestMessage(response.data);  // Set the test message from backend
       })
