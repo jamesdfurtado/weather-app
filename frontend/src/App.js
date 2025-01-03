@@ -57,8 +57,12 @@ function App() {
           {/* Display the test message here */}
           {testMessage && <p><strong>Backend Test Message:</strong> {testMessage}</p>}
 
-          {/* Sign-up link */}
-          <Link to="/auth" className="auth-button">Sign Up / Sign In</Link>
+          {/* Sign Up / Sign In  */}
+          <div className="auth-container">
+            <Link to="/auth" className="auth-button">Sign Up / Sign In</Link>
+            <p className="auth-info">Sign up to save location preferences!</p>
+          </div>
+
         </header>
 
         <main>

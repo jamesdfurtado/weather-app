@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';  // Import axios
 
 function AuthPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isSignUp, setIsSignUp] = useState(false); // Default to Sign In
+  const [message, setMessage] = useState(""); // To display success/failure message
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!username || !password) {
@@ -15,13 +17,26 @@ function AuthPage() {
       return;
     }
 
-    // Normally, here you would send the data to a server
-    if (isSignUp) {
-      console.log("User Registered:", { username, password });
-      alert("Sign up successful!");
-    } else {
-      console.log("User Signed In:", { username, password });
-      alert("Sign in successful!");
+    const userData = {
+      username,
+      password,
+    };
+
+    try {
+      let response;
+      if (isSignUp) {
+        response = await axios.post('http://localhost:8080/api/signup', userData);  // Make the POST request to backend
+      } else {
+        // Here you can add sign-in logic as well if you want
+        console.log("User Signed In:", { username, password });
+        alert("Sign in successful!");
+        return;
+      }
+
+      setMessage(response.data); // Show the response from backend
+    } catch (error) {
+      setMessage('There was an error during sign-up!');
+      console.error('Error signing up:', error);
     }
 
     // Clear form and error after submission
@@ -57,6 +72,7 @@ function AuthPage() {
         {error && <p className="error-message">{error}</p>}
         <button type="submit">{isSignUp ? "Sign Up" : "Sign In"}</button>
       </form>
+      {message && <p>{message}</p>}  {/* Display the message from backend */}
       <p>
         {isSignUp ? "Already have an account? " : "Don't have an account? "}
         <span
@@ -66,7 +82,7 @@ function AuthPage() {
           {isSignUp ? "Sign In" : "Sign Up"}
         </span>
       </p>
-      <Link to="/" className="return-button">Return to Weather</Link> {/* Add the button */}
+      <Link to="/" className="return-button">Return to Weather</Link>
     </div>
   );
 }
