@@ -19,6 +19,106 @@ main {
 }
 
 
+/* Auth Button */
+.auth-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Removes underline */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #45a049;
+}
+
+
+/* Auth Page */
+.auth-page {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+}
+
+.auth-page h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group input {
+  width: 95%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.toggle-link {
+  color: #0078d7;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+/* Return to Weather Button */
+.return-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0078d7;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.return-button:hover {
+  background-color: #005bb5;
+}
+
+
 /* Search Bar */
 .search-bar {
   display: flex;
@@ -51,6 +151,7 @@ main {
 .search-button:hover {
   background-color: #0056b3;
 }
+
 
 /* City not found */
 .error-message {
@@ -104,6 +205,10 @@ main {
 }
 
 
+
+
+
+
 /* Hourly Forecast */
 .hourly-forecast {
   margin: 20px 0;
@@ -143,6 +248,7 @@ main {
   font-size: 16px;
   font-weight: bold;
 }
+
 
 /* 5-Day Forecast */
 .five-day-forecast-box {
@@ -193,7 +299,3 @@ h3 {
   font-weight: bold;
   text-align: center;
 }
-
-
-
-
