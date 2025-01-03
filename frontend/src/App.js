@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';  // Import axios
 import CurrentWeather from './components/CurrentWeather';
 import ApiCall from './components/ApiCall';
 import SearchBar from './components/SearchBar';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
-import AuthPage from './components/AuthPage'; // Changed to AuthPage
+import AuthPage from './components/AuthPage';
 
 function App() {
   const [currentDateTime, setCurrentDateTime] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [cityQuery, setCityQuery] = useState("");
+  const [testMessage, setTestMessage] = useState("");  // State for storing test message
 
   const updateCurrentDateTime = () => {
     const now = new Date();
@@ -27,10 +28,22 @@ function App() {
   };
 
   useEffect(() => {
+    // Update time every second
     updateCurrentDateTime();
     const intervalId = setInterval(updateCurrentDateTime, 1000);
     return () => clearInterval(intervalId);
   }, []);
+
+  // Fetch the test message from the backend
+  useEffect(() => {
+    axios.get('http://localhost:8080/test')  // Make GET request to your backend
+      .then(response => {
+        setTestMessage(response.data);  // Set the test message from backend
+      })
+      .catch(error => {
+        console.error('There was an error fetching the test message!', error);
+      });
+  }, []); // Empty dependency array means this runs once on mount
 
   return (
     <div className="App">
@@ -40,7 +53,10 @@ function App() {
           <h3>Get the latest weather updates for your location.</h3>
           <p>Created by James Furtado</p>
           <p><strong>Current Date and Time:</strong> {currentDateTime}</p>
-          
+
+          {/* Display the test message here */}
+          {testMessage && <p><strong>Backend Test Message:</strong> {testMessage}</p>}
+
           {/* Sign-up link */}
           <Link to="/auth" className="auth-button">Sign Up / Sign In</Link>
         </header>
