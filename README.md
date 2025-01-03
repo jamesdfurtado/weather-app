@@ -6,7 +6,7 @@ More to be implemented soon.
 Stack:
   React.js: Frontend
   
-  Java:     Backend
+  Spring Boot:     Backend
   
   MySQL:    Database
 
