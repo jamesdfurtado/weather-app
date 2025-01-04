@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api") // Optional: prefix for all endpoints in this controller
+@RequestMapping("/api") // prefix for all endpoints in this controller
 public class AuthController {
 
     // Handle POST request for user sign-up
