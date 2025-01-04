@@ -8,7 +8,7 @@ public class User {
     @Id
     private Long id;
     private String username;
-    private String password;
+    private String pword;
 
     // Getters and setters
     public Long getId() {
@@ -27,11 +27,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPword() {
+        return pword;  // Changed from 'getPassword' to 'getPword'
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPword(String pword) {
+        this.pword = pword;  // Changed from 'setPassword' to 'setPword'
     }
 }
