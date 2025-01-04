@@ -1,11 +1,16 @@
 package com.example.backend.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")  // Explicitly map to the "users" table
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Automatically generate ID
     private Long id;
     private String username;
     private String pword;
@@ -28,10 +33,10 @@ public class User {
     }
 
     public String getPword() {
-        return pword;  // Changed from 'getPassword' to 'getPword'
+        return pword;
     }
 
     public void setPword(String pword) {
-        this.pword = pword;  // Changed from 'setPassword' to 'setPword'
+        this.pword = pword;
     }
 }
