@@ -63,9 +63,8 @@ function App() {
       <Router>
         <header className="App-header">
           <h1>Weather App</h1>
-          <h3>Get the latest weather updates for your location.</h3>
+          <p>Get the latest weather updates for your location.</p>
           <p>Created by James Furtado</p>
-          <p><strong>Current Date and Time:</strong> {currentDateTime}</p>
 
           {/* Display username or "Guest" */}
           <p className="username-container">{username}</p>
@@ -85,6 +84,7 @@ function App() {
         </header>
 
         <main>
+        <h3 className = "date-time">{currentDateTime}</h3>
           <Routes>
             <Route path="/" element={
               <>
