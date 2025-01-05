@@ -124,6 +124,41 @@ button:hover {
   background-color: #005bb5;
 }
 
+/* Username Display at Top Left */
+.username-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 16px;  /* Matches the general text size in your app */
+  font-weight: bold;
+  color: #333;  /* Matches the general text color */
+  background-color: #ffffff; /* White background to make it stand out */
+  padding: 5px 15px; /* Padding for better spacing */
+  border-radius: 5px; /* Rounded corners for a smooth look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for a floating effect */
+}
+
+
+/* Sign Out Button */
+.sign-out-button {
+  position: absolute;  /* Position relative to the closest positioned ancestor */
+  top: 80px;  /* Adjust to move the button down from the top */
+  left: 20px;  /* Adjust to move the button right from the left */
+  padding: 10px 20px;
+  background-color: #f44336;  /* Red color for the sign-out button */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.sign-out-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
 
 /* Search Bar */
 .search-bar {

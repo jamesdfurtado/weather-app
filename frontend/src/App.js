@@ -12,6 +12,7 @@ function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [cityQuery, setCityQuery] = useState("");
   const [testMessage, setTestMessage] = useState("");  // State for storing test message
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest"); // Track signed-in username
 
   const updateCurrentDateTime = () => {
     const now = new Date();
@@ -45,6 +46,18 @@ function App() {
       });
   }, []); // Empty dependency array means this runs once on mount
 
+  // Update username when sign-in is successful
+  const updateUsername = (newUsername) => {
+    setUsername(newUsername);
+    localStorage.setItem("username", newUsername); // Store username in localStorage
+  };
+
+  // Sign out functionality
+  const handleSignOut = () => {
+    setUsername("Guest");  // Reset username to "Guest"
+    localStorage.removeItem("username"); // Remove username from localStorage
+  };
+
   return (
     <div className="App">
       <Router>
@@ -54,15 +67,21 @@ function App() {
           <p>Created by James Furtado</p>
           <p><strong>Current Date and Time:</strong> {currentDateTime}</p>
 
-          {/* Display the test message here */}
-          {testMessage && <p><strong>Backend Test Message:</strong> {testMessage}</p>}
+          {/* Display username or "Guest" */}
+          <p className="username-container">{username}</p>
+
+          {/* Sign Out Button (only show if user is signed in) */}
+          {username !== "Guest" && (
+            <button className="sign-out-button" onClick={handleSignOut}>
+              Sign Out
+            </button>
+          )}
 
           {/* Sign Up / Sign In  */}
           <div className="auth-container">
             <Link to="/auth" className="auth-button">Sign Up / Sign In</Link>
             <p className="auth-info">Sign up to save location preferences!</p>
           </div>
-
         </header>
 
         <main>
@@ -83,7 +102,7 @@ function App() {
                 )}
               </>
             } />
-            <Route path="/auth" element={<AuthPage />} /> {/* Route for Auth page */}
+            <Route path="/auth" element={<AuthPage updateUsername={updateUsername} />} /> {/* Pass updateUsername to AuthPage */}
           </Routes>
         </main>
       </Router>

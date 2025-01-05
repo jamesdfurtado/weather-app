@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import axios from 'axios';  // Import axios
 
-function AuthPage() {
+function AuthPage({ updateUsername }) {  // Receive updateUsername as a prop
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -19,24 +19,34 @@ function AuthPage() {
 
     const userData = {
       username,
-      password,
+      pword: password, // Match the backend field for password
     };
 
     try {
       let response;
       if (isSignUp) {
-        response = await axios.post('http://localhost:8080/api/signup', userData);  // Make the POST request to backend
+        response = await axios.post('http://localhost:8080/api/users/signup', userData);
+        setMessage("Sign-up successful!");  // Display sign-up success message
       } else {
-        // Here you can add sign-in logic as well if you want
-        console.log("User Signed In:", { username, password });
-        alert("Sign in successful!");
-        return;
+        // Check if username exists
+        const userResponse = await axios.get(`http://localhost:8080/api/users/${username}`);
+        
+        if (!userResponse.data) {
+          setMessage("Username not found!");
+        } else {
+          // If username exists, check if password matches
+          const storedPassword = userResponse.data.pword;
+          if (storedPassword === password) {
+            setMessage("Sign-in successful!");  // Password matches
+            updateUsername(username);  // Update the username in App.js
+          } else {
+            setMessage("Incorrect password!");  // Password mismatch
+          }
+        }
       }
-
-      setMessage(response.data); // Show the response from backend
     } catch (error) {
-      setMessage('There was an error during sign-up!');
-      console.error('Error signing up:', error);
+      setMessage('There was an error during the process!');
+      console.error('Error:', error);
     }
 
     // Clear form and error after submission

@@ -35,4 +35,22 @@ public class UserController {
         Optional<User> user = userService.findUserByUsername(username);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    // New sign-in endpoint
+    @PostMapping("/signin")
+    public ResponseEntity<String> signIn(@RequestBody User user) {
+        // Check if the user exists
+        Optional<User> existingUser = userService.findUserByUsername(user.getUsername());
+
+        if (existingUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username not found!");
+        }
+
+        // Check if passwords match
+        if (existingUser.get().getPword().equals(user.getPword())) {
+            return ResponseEntity.ok("Sign-in successful!");
+        } else {
+            return ResponseEntity.badRequest().body("Incorrect password!");
+        }
+    }
 }
