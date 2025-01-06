@@ -12,16 +12,3 @@ CREATE TABLE locations (
     username VARCHAR(255) NOT NULL,
     location VARCHAR(255) NOT NULL
 );
-
-SHOW DATABASES;
-SHOW TABLES;
-
-DESCRIBE users;
-DESCRIBE locations;
-
-SELECT * FROM users;
-SELECT * FROM locations;
-
-TRUNCATE TABLE locations;
-TRUNCATE TABLE users;
-
