@@ -1,5 +1,5 @@
-create database db;
-use db;
+CREATE DATABASE db;
+USE db;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,18 +9,19 @@ CREATE TABLE users (
 
 CREATE TABLE locations (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    location VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    username VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL
 );
 
+SHOW DATABASES;
+SHOW TABLES;
 
-show databases;
-show tables;
-
-describe users;
-SELECT * FROM users;
-
+DESCRIBE users;
 DESCRIBE locations;
+
+SELECT * FROM users;
 SELECT * FROM locations;
+
+TRUNCATE TABLE locations;
+TRUNCATE TABLE users;
 
