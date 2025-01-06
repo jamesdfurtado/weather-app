@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import axios from 'axios';  // Import axios
+import axios from 'axios';
 import CurrentWeather from './components/CurrentWeather';
 import ApiCall from './components/ApiCall';
 import SearchBar from './components/SearchBar';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AuthPage from './components/AuthPage';
+import SavedLocations from './components/SavedLocations';
 
 function App() {
   const [currentDateTime, setCurrentDateTime] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [cityQuery, setCityQuery] = useState("");
-  const [testMessage, setTestMessage] = useState("");  // State for storing test message
-  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest"); // Track signed-in username
+  const [username, setUsername] = useState(localStorage.getItem("username") || "Guest");
+  const [savedLocationsChanged, setSavedLocationsChanged] = useState(false);
 
   const updateCurrentDateTime = () => {
     const now = new Date();
@@ -25,58 +26,49 @@ function App() {
   };
 
   const handleSearch = (city) => {
-    setCityQuery(city); // Update city query for ApiCall
+    setCityQuery(city);
+  };
+
+  const handleSaveLocation = () => {
+    if (username === "Guest" || !weatherData) return;
+
+    axios.post('http://localhost:8080/api/locations/save', {
+      username: username,
+      location: weatherData.location,
+    })
+      .then(response => {
+        console.log('Location saved:', response.data);
+        setSavedLocationsChanged(!savedLocationsChanged);
+      })
+      .catch(error => {
+        console.error('Error saving location:', error);
+      });
   };
 
   useEffect(() => {
-    // Update time every second
     updateCurrentDateTime();
     const intervalId = setInterval(updateCurrentDateTime, 1000);
     return () => clearInterval(intervalId);
   }, []);
-
-  // Fetch the test message from the backend
-  useEffect(() => {
-    axios.get('http://localhost:8080/test')  // Make GET request to backend
-      .then(response => {
-        setTestMessage(response.data);  // Set the test message from backend
-      })
-      .catch(error => {
-        console.error('There was an error fetching the test message!', error);
-      });
-  }, []); // Empty dependency array means this runs once on mount
-
-  // Update username when sign-in is successful
-  const updateUsername = (newUsername) => {
-    setUsername(newUsername);
-    localStorage.setItem("username", newUsername); // Store username in localStorage
-  };
-
-  // Sign out functionality
-  const handleSignOut = () => {
-    setUsername("Guest");  // Reset username to "Guest"
-    localStorage.removeItem("username"); // Remove username from localStorage
-  };
 
   return (
     <div className="App">
       <Router>
         <header className="App-header">
           <h1>Weather App</h1>
-          <p>Get the latest weather updates for your location.</p>
           <p>Created by James Furtado</p>
+          <p className="date-time">{currentDateTime}</p>
 
-          {/* Display username or "Guest" */}
-          <p className="username-container">{username}</p>
+          <div className="username-container">
+            {username}
+          </div>
 
-          {/* Sign Out Button (only show if user is signed in) */}
           {username !== "Guest" && (
-            <button className="sign-out-button" onClick={handleSignOut}>
+            <button className="sign-out-button" onClick={() => setUsername("Guest")}>
               Sign Out
             </button>
           )}
 
-          {/* Sign Up / Sign In  */}
           <div className="auth-container">
             <Link to="/auth" className="auth-button">Sign Up / Sign In</Link>
             <p className="auth-info">Sign up to save location preferences!</p>
@@ -84,25 +76,43 @@ function App() {
         </header>
 
         <main>
-        <h3 className = "date-time">{currentDateTime}</h3>
           <Routes>
             <Route path="/" element={
               <>
                 <SearchBar onSearch={handleSearch} />
                 <ApiCall onApiDataRetrieved={handleApiDataRetrieved} cityQuery={cityQuery} />
                 {weatherData && (
-                  <CurrentWeather
-                    location={weatherData.location}
-                    temp={weatherData.temp}
-                    condition={weatherData.condition}
-                    high={weatherData.high}
-                    low={weatherData.low}
-                    iconCode={weatherData.iconCode}
-                  />
+                  <div className="weather-container">
+                    <CurrentWeather
+                      location={weatherData.location}
+                      temp={weatherData.temp}
+                      condition={weatherData.condition}
+                      high={weatherData.high}
+                      low={weatherData.low}
+                      iconCode={weatherData.iconCode}
+                    />
+
+                    {username !== "Guest" && (
+                      <button className="save-location-button" onClick={handleSaveLocation}>Save Location</button>
+                    )}
+                  </div>
+                )}
+
+                {username !== "Guest" && (
+                  <>
+                    <h3 className="location-text">Saved Locations</h3>
+                    <div className="saved-locations-tabs">
+                      <SavedLocations
+                        username={username}
+                        savedLocationsChanged={savedLocationsChanged}
+                        onSearch={handleSearch} // Pass down the onSearch function
+                      />
+                    </div>
+                  </>
                 )}
               </>
             } />
-            <Route path="/auth" element={<AuthPage updateUsername={updateUsername} />} /> {/* Pass updateUsername to AuthPage */}
+            <Route path="/auth" element={<AuthPage updateUsername={setUsername} />} />
           </Routes>
         </main>
       </Router>

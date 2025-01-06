@@ -21,7 +21,7 @@ main {
   padding: 20px;
 }
 
-/* Auth Button */
+/* Sign Up / Sign In Button */
 .auth-button {
   position: absolute;
   top: 20px;
@@ -37,6 +37,10 @@ main {
   font-weight: bold;
   transition: background-color 0.3s ease;
   font-family: 'Open Sans', sans-serif;
+}
+
+.auth-button:hover {
+  background-color: #45a049;
 }
 
 /* Auth Info */
@@ -166,8 +170,116 @@ button:hover {
 }
 
 .sign-out-button:hover {
-  background-color: #d32f2f;
+  background-color: #8a1c1c;
 }
+
+
+/* Styling for the Saved Locations Tabs */
+.location-text {
+  text-align: center;
+}
+
+.saved-locations-tabs {
+  display: flex;
+  justify-content: center; /* Center the items horizontally */
+  align-items: center; /* Center the items vertically */
+  background-color: transparent;
+  border-radius: 5px;
+  margin: auto; /* Center the entire block */
+  max-width: 90%; /* Limit the width to prevent overflow */
+}
+
+.saved-location {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  background-color: transparent;
+  padding: 3px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid #000000;
+}
+
+.saved-location:hover {
+  background-color: #ddd;
+}
+
+.saved-location span {
+  margin-right: 8px;
+}
+
+.saved-location button {
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.saved-location button:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.05);
+}
+
+.saved-location button.delete {
+  background-color: transparent;
+  border: none;
+  color: #ff0000;
+  font-size: 18px;
+  padding: 0;
+  margin-left: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.saved-location button.delete:hover {
+  background-color: rgba(169, 169, 169, 0.3);
+}
+
+
+
+/* Styling for the header of the app (move the saved locations above) */
+.App-header {
+  text-align: center;
+  padding: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.date-time {
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+}
+
+main {
+  margin-top: 30px;
+  padding: 10px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* General button styling */
+button {
+  padding: 8px 16px;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 
 
 /* Date & Time */
@@ -220,8 +332,9 @@ button:hover {
   text-align: center;
 }
 
+
 /* Current Weather */
-.current-data {
+.weather-container {
   text-align: center;
   padding: 20px;
   background: linear-gradient(to bottom, #0078d7, #005bb5);
@@ -232,6 +345,7 @@ button:hover {
   max-width: 400px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   font-family: 'Roboto', sans-serif;
+  position: relative; /* Add this to make the button position relative to the container */
 }
 
 .location {
@@ -267,3 +381,22 @@ button:hover {
   opacity: 0.8;
   font-family: 'Roboto', sans-serif;
 }
+
+.save-location-button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute; /* Position the button absolutely inside the container */
+  bottom: 15px; /* Distance from the bottom */
+  right: 15px;  /* Distance from the right */
+  font-family: 'Open Sans', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.save-location-button:hover {
+  background-color: #45a049;
+}
+
