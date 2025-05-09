@@ -16,7 +16,18 @@ function Home() {
     try {
       setError(null);
       const res = await fetchWeatherByCity(city);
-      setWeatherData(res.data);
+      const raw = res.data;
+
+      const normalizedData = {
+        location: raw.name,
+        temp: Math.round(raw.main.temp),
+        condition: raw.weather[0].main,
+        high: Math.round(raw.main.temp_max),
+        low: Math.round(raw.main.temp_min),
+        iconCode: raw.weather[0].icon
+      };
+
+      setWeatherData(normalizedData);
     } catch (err) {
       setError('City not found or weather data unavailable.');
     }
