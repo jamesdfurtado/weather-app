@@ -6,7 +6,7 @@ function ApiCall({ onApiDataRetrieved, cityQuery }) {
   const fetchWeatherData = async (latitude, longitude) => {
     try {
       setError(null); // Clear any previous errors
-      const apiKey = "df8d0bb7c93415bde0e26eff0f02a823";
+      const apiKey = "YOUR_API_KEY_HERE";
 
       // Fetch city name
       const cityResponse = await fetch(
@@ -42,7 +42,7 @@ function ApiCall({ onApiDataRetrieved, cityQuery }) {
   const fetchWeatherByCity = async (city) => {
     try {
       setError(null); // Clear any previous errors
-      const apiKey = "df8d0bb7c93415bde0e26eff0f02a823";
+      const apiKey = "YOUR_API_KEY_HERE";
 
       // Fetch city coordinates
       const geoResponse = await fetch(
