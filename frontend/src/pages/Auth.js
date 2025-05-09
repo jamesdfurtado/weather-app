@@ -17,20 +17,24 @@ function Auth() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    const userData = {
+      username: form.username,
+      password: form.password, // must match backend User.java field name
+    };
+    console.log(`Submitting to /${isSignUp ? 'signup' : 'signin'} with:`, userData);
     try {
-      const userData = {
-        username: form.username,
-        pword: form.password, // matches your backend
-      };
       if (isSignUp) {
-        await signUp(userData);
+        const res = await signUp(userData);
+        console.log('Sign-up response:', res);
         setMessage('Sign-up successful!');
       } else {
         const res = await signIn(userData);
+        console.log('Sign-in response:', res);
         setUsername(res.data.username);
         navigate('/');
       }
     } catch (err) {
+      console.error('Error during auth request:', err);
       setMessage('Authentication failed.');
     }
   };
