@@ -34,8 +34,6 @@ build/
 
 ### environment ###
 .env
-application-secrets.properties
-src/main/resources/application-secrets.properties
 
 ### Logs ###
 *.log
