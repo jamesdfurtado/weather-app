@@ -10,28 +10,21 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "location", nullable = false)
+    @Column(nullable = false, length = 100)
     private String location;
 
-    @Column(name = "username", nullable = false)
-    private String username;  // Changed from userId (int) to username (String)
+    @Column(nullable = false, length = 100)
+    private String username;
 
-    // Constructors
-    public Location() {
-    }
+    public Location() {}
 
     public Location(String location, String username) {
         this.location = location;
-        this.username = username;  // Updated constructor
+        this.username = username;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getLocation() {
@@ -43,10 +36,10 @@ public class Location {
     }
 
     public String getUsername() {
-        return username;  // Getter for username
+        return username;
     }
 
     public void setUsername(String username) {
-        this.username = username;  // Setter for username
+        this.username = username;
     }
 }

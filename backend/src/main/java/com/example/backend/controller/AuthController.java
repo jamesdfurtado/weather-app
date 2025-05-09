@@ -1,27 +1,42 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.User;
+import com.example.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/api") // prefix for all endpoints in this controller
+@RequestMapping("/api/auth")
 public class AuthController {
 
-    // Handle POST request for user sign-up
+    @Autowired private UserService userService;
+    @Autowired private PasswordEncoder passwordEncoder;
+
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody Map<String, String> userData) {
-        // Retrieve username and password from request body
-        String username = userData.get("username");
-        String password = userData.get("password");
+    public ResponseEntity<String> signUp(@RequestBody User user) {
+        if (userService.findUserByUsername(user.getUsername()).isPresent()) {
+            return ResponseEntity.badRequest().body("Username already exists");
+        }
 
-        // Temporary logic to mimic saving user data
-        System.out.println("Received sign-up data:");
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
+        return ResponseEntity.ok("Sign-up successful");
+    }
 
-        // Respond with a success message
-        return ResponseEntity.ok("Sign-up successful (temporary placeholder)!");
+    @PostMapping("/signin")
+    public ResponseEntity<String> signIn(@RequestBody User user) {
+        var storedUserOpt = userService.findUserByUsername(user.getUsername());
+        if (storedUserOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username not found");
+        }
+
+        User storedUser = storedUserOpt.get();
+        if (passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+            return ResponseEntity.ok("Sign-in successful");
+        } else {
+            return ResponseEntity.badRequest().body("Incorrect password");
+        }
     }
 }

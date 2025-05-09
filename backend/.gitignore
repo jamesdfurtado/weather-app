@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### environment ###
+.env
+application-secrets.properties
+src/main/resources/application-secrets.properties
+
+### Logs ###
+*.log
+
+### Compiled Java classes ###
+*.class
+
+### Misc ###
+*.tmp
+.DS_Store
+Thumbs.db
