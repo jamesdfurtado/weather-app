@@ -1,27 +1,21 @@
 import api from './axios';
 
-export const signUp = (userData) => {
-  return api.post('/auth/signup', userData);
-};
+/* ---------- auth ---------- */
+export const signUp = (userData) => api.post('/auth/signup', userData);
+export const signIn = (userData) => api.post('/auth/signin', userData);
 
-export const signIn = (userData) => {
-  return api.post('/auth/signin', userData);
-};
+/* ---------- current weather ---------- */
+export const fetchWeatherByCity = (city) =>
+  api.get(`/weather?city=${encodeURIComponent(city)}`);
 
-export const fetchWeatherByCity = (city) => {
-  return api.get(`/weather?city=${city}`);
-};
+/* ---------- saved locations ---------- */
+export const saveLocation = (username, location) =>
+  api.post('/locations/save', { username, location });
 
-export const saveLocation = (username, location) => {
-  return api.post('/locations', { username, location });
-};
+export const getSavedLocations = (username) =>
+  api.get(`/locations/user/${encodeURIComponent(username)}`);
 
-export const getSavedLocations = (username) => {
-  return api.get(`/locations?username=${username}`);
-};
-
-export const deleteLocation = (username, location) => {
-  return api.delete('/locations', {
+export const deleteLocation = (username, location) =>
+  api.delete('/locations/delete', {
     data: { username, location },
   });
-};
