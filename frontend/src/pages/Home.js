@@ -18,17 +18,16 @@ function Home() {
       const res = await fetchWeatherByCity(city);
       const raw = res.data;
 
-const normalizedData = {
-  location: raw.name,
-  temp: Math.round(raw.main.temp),
-  condition: raw.weather[0].main,
-  high: Math.round(raw.main.temp_max),
-  low: Math.round(raw.main.temp_min),
-  iconCode: raw.weather[0].icon
-};
+      const normalizedData = {
+        location: raw.name,
+        temp: Math.round(raw.main.temp),
+        condition: raw.weather[0].main,
+        high: Math.round(raw.main.temp_max),
+        low: Math.round(raw.main.temp_min),
+        iconCode: raw.weather[0].icon
+      };
 
-setWeatherData(normalizedData);
-
+      setWeatherData(normalizedData);
     } catch (err) {
       setError('City not found or weather data unavailable.');
     }
@@ -49,11 +48,11 @@ setWeatherData(normalizedData);
       <header>
         <h1>Weather App</h1>
         <p>Created by James Furtado</p>
-        <div>
+        <div className="user-info">
           {username ? (
             <>
-              <span>Welcome, {username}</span>
-              <button onClick={signOut}>Sign Out</button>
+              <span className="username-badge">{username}</span>
+              <button className="signout-button" onClick={signOut}>Sign Out</button>
             </>
           ) : (
             <Link to="/auth">Sign In / Sign Up</Link>
