@@ -13,16 +13,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-// @CrossOrigin(origins = "*")  // ❌ remove or narrow to "http://localhost:3000"
 public class AuthController {
 
     @Autowired private UserService userService;
     @Autowired private PasswordEncoder passwordEncoder;
 
-    /* ---------- REGISTER ---------- */
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String,String> body) {
+    /* ---------- SIGNUP ---------- */
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody Map<String, String> body) {
         String username = body.get("username");
+        String password = body.get("password");
         String idToken  = body.get("idToken");
 
         try {
@@ -37,7 +37,7 @@ public class AuthController {
 
             User u = new User();
             u.setUsername(username);
-            u.setPassword(passwordEncoder.encode("firebase"));
+            u.setPassword(passwordEncoder.encode(password));
             u.setPhone(phone);
             u.setPhoneVerified(true);
             userService.saveUser(u);
@@ -49,20 +49,50 @@ public class AuthController {
         }
     }
 
-    /* ---------- LOGIN ---------- */
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String,String> body) {
+    /* ---------- SIGNIN (Step 1: Password Check) ---------- */
+    @PostMapping("/signin")
+    public ResponseEntity<?> signin(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+
+        var optUser = userService.findUserByUsername(username);
+        if (optUser.isEmpty())
+            return ResponseEntity.badRequest().body("Invalid username or password");
+
+        User user = optUser.get();
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            return ResponseEntity.badRequest().body("Invalid username or password");
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Password validated. Proceed to phone verification.",
+                "username", username,
+                "phone", user.getPhone()
+        ));
+    }
+
+    /* ---------- VERIFY LOGIN (Step 2: Firebase SMS ID Token) ---------- */
+    @PostMapping("/verify-login")
+    public ResponseEntity<?> verifyLogin(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
         String idToken = body.get("idToken");
 
         try {
             FirebaseToken decoded = FirebaseAuth.getInstance().verifyIdToken(idToken);
-            String phone = (String) decoded.getClaims().get("phone_number");
+            String phoneFromToken = (String) decoded.getClaims().get("phone_number");
 
-            var optUser = userService.findByPhone(phone);
+            var optUser = userService.findUserByUsername(username);
             if (optUser.isEmpty())
-                return ResponseEntity.badRequest().body("No account linked to this phone");
+                return ResponseEntity.badRequest().body("User not found");
 
-            return ResponseEntity.ok(Map.of("username", optUser.get().getUsername()));
+            User user = optUser.get();
+            if (!user.getPhone().equals(phoneFromToken))
+                return ResponseEntity.badRequest().body("Phone number does not match");
+
+            // Optionally: update user.lastLogin, session, etc.
+            return ResponseEntity.ok(Map.of(
+                    "message", "User successfully signed in.",
+                    "username", username
+            ));
 
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Invalid Firebase token");
