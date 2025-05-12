@@ -68,7 +68,9 @@ function Home() {
         <>
           <CurrentWeather data={weatherData} />
           {username && (
-            <button onClick={handleSaveLocation}>Save Location</button>
+            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+              <button onClick={handleSaveLocation}>Save Location</button>
+            </div>
           )}
         </>
       )}

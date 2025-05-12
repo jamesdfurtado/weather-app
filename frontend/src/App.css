@@ -40,7 +40,7 @@ body {
   font-weight: bold;
 }
 
-.home-page button,
+.home-page button:not(.signout-button),
 .search-bar button,
 .auth-page button {
   background-color: #4CAF50;
@@ -138,7 +138,7 @@ body {
   cursor: pointer;
 }
 
-.saved-locations li button {
+.home-page .saved-locations li button {
   background-color: #f44336;
   border: none;
   color: white;
