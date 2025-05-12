@@ -87,7 +87,10 @@ function Auth() {
         {/* toggle between sign in and sign up */}
         <p className="auth-toggle-text">
           {isSignUp ? 'Already have an account?' : 'No account?'}{' '}
-          <span className="toggle-link" onClick={() => setIsSignUp(!isSignUp)}>
+          <span
+            onClick={() => setIsSignUp(!isSignUp)}
+            style={{ color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }}
+          >
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </span>
         </p>
