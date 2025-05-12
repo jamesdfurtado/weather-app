@@ -4,14 +4,16 @@ import { getSavedLocations, deleteLocation } from '../api/weather';
 function SavedLocations({ username, onSearch, refreshTrigger }) {
   const [locations, setLocations] = useState([]);
 
+  // re-fetch saved locations when username or trigger changes
   useEffect(() => {
     if (!username) return;
 
     getSavedLocations(username)
       .then((res) => setLocations(res.data))
-      .catch(() => {});
+      .catch(() => {}); // silent fail for now
   }, [username, refreshTrigger]);
 
+  // handle delete button press
   const handleDelete = async (locationName) => {
     try {
       await deleteLocation(username, locationName);
@@ -28,6 +30,7 @@ function SavedLocations({ username, onSearch, refreshTrigger }) {
         <ul>
           {locations.map((loc) => (
             <li key={loc.id}>
+              {/* clicking the location re-triggers a search */}
               <span onClick={() => onSearch(loc.location)}>{loc.location}</span>
               <button onClick={() => handleDelete(loc.location)}>X</button>
             </li>

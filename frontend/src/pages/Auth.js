@@ -11,6 +11,7 @@ function Auth() {
   const { setUsername } = useAuth();
   const nav = useNavigate();
 
+  // sets up invisible reCAPTCHA for Firebase phone auth
   useEffect(() => {
     let container = document.getElementById('global-recaptcha');
     if (!container) {
@@ -24,7 +25,9 @@ function Auth() {
     }
   }, []);
 
+  // triggers phone auth flow (SMS verification code)
   const smsFlow = async phone => {
+    // reset the widget in case it’s been used already
     if (window.grecaptcha && window.recaptchaWidgetId !== undefined) {
       window.grecaptcha.reset(window.recaptchaWidgetId);
     }
@@ -34,17 +37,20 @@ function Auth() {
     return cred.user.getIdToken();
   };
 
+  // handles form submit (sign up or sign in)
   const handleSubmit = async e => {
     e.preventDefault();
     setMsg('');
     try {
       if (isSignUp) {
+        // full signup flow: get phone token, create account
         const idToken = await smsFlow(form.phone);
         await signUp({ username: form.username, password: form.password, idToken });
         setMsg('Signup successful! Please sign in.');
         setIsSignUp(false);
         setForm({ username: '', password: '', phone: '' });
       } else {
+        // sign in with username + password, then phone verify
         const { data } = await signIn({ username: form.username, password: form.password });
         const idToken = await smsFlow(data.phone);
         await verifyLogin({ username: form.username, idToken });
@@ -66,6 +72,7 @@ function Auth() {
       <div className="auth-page">
         <h2 className="auth-heading">{isSignUp ? 'Create Account' : 'Sign In'}</h2>
 
+        {/* main form */}
         <form className="auth-form" onSubmit={handleSubmit}>
           <input className="auth-input" name="username" placeholder="Username" value={form.username} onChange={onChange} required />
           <input className="auth-input" name="password" type="password" placeholder="Password" value={form.password} onChange={onChange} required />
@@ -77,6 +84,7 @@ function Auth() {
 
         {msg && <p className="auth-message">{msg}</p>}
 
+        {/* toggle between sign in and sign up */}
         <p className="auth-toggle-text">
           {isSignUp ? 'Already have an account?' : 'No account?'}{' '}
           <span className="toggle-link" onClick={() => setIsSignUp(!isSignUp)}>

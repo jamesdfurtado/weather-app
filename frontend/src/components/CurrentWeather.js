@@ -2,6 +2,8 @@ import React from 'react';
 
 function CurrentWeather({ data }) {
   const { location, temp, condition, high, low, iconCode } = data;
+
+  // grab weather icon from OpenWeatherMap
   const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
   return (

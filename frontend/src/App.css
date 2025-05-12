@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* general page styling */
 body {
   margin: 0;
   padding: 0;
@@ -7,6 +8,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+/* homepage header */
 .home-page header {
   background: linear-gradient(to bottom, #0078d7, #005bb5);
   color: white;
@@ -40,6 +42,7 @@ body {
   font-weight: bold;
 }
 
+/* buttons (excluding signout) and search/auth buttons */
 .home-page button:not(.signout-button),
 .search-bar button,
 .auth-page button {
@@ -53,23 +56,27 @@ body {
   font-weight: bold;
 }
 
+/* search button tweaks */
 .search-bar button {
   background-color: #007bff;
   margin-left: 10px;
 }
 
+/* hover effect for all buttons */
 .search-bar button:hover,
 .home-page button:hover,
 .auth-page button:hover {
   opacity: 0.9;
 }
 
+/* search bar layout */
 .search-bar {
   display: flex;
   justify-content: center;
   margin: 20px;
 }
 
+/* search input field */
 .search-input {
   width: 300px;
   padding: 10px;
@@ -78,6 +85,7 @@ body {
   border: 1px solid #ccc;
 }
 
+/* current weather card */
 .current-data {
   background: linear-gradient(to bottom, #0078d7, #005bb5);
   color: white;
@@ -109,6 +117,7 @@ body {
   margin-top: 10px;
 }
 
+/* saved locations list */
 .saved-locations {
   text-align: center;
   margin-top: 20px;
@@ -138,6 +147,7 @@ body {
   cursor: pointer;
 }
 
+/* X button next to saved locations */
 .home-page .saved-locations li button {
   background-color: #f44336;
   border: none;
@@ -147,13 +157,14 @@ body {
   cursor: pointer;
 }
 
+/* error messages */
 .error-message {
   color: red;
   text-align: center;
   margin-top: 10px;
 }
 
-/* Auth Page */
+/* Auth page styling */
 .auth-page {
   background-color: white;
   padding: 30px;
@@ -177,6 +188,7 @@ body {
   margin-top: 15px;
 }
 
+/* back button arrow */
 .back-arrow {
   position: fixed;
   top: 1rem;
@@ -194,6 +206,7 @@ body {
   color: #000;
 }
 
+/* logged-in user info badge */
 .user-info {
   display: flex;
   flex-direction: column;
@@ -211,6 +224,7 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* sign out button */
 .signout-button {
   background-color: #e74c3c;
   color: white;

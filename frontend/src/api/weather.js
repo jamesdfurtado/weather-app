@@ -1,14 +1,14 @@
 import api from './axios';
 
-/* ---------- auth ---------- */
+// auth
 export const signUp = (userData) => api.post('/auth/signup', userData);
 export const signIn = (userData) => api.post('/auth/signin', userData);
 
-/* ---------- current weather ---------- */
+// current weather
 export const fetchWeatherByCity = (city) =>
   api.get(`/weather?city=${encodeURIComponent(city)}`);
 
-/* ---------- saved locations ---------- */
+// saved locations
 export const saveLocation = (username, location) =>
   api.post('/locations/save', { username, location });
 

@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
+// connecting my firebase app's keys to .env
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,

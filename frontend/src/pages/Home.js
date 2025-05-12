@@ -8,16 +8,24 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   const { username, signOut } = useAuth();
+
+  // holds the current weather data from API
   const [weatherData, setWeatherData] = useState(null);
+
+  // toggled to force reload of saved locations when one is added
   const [savedLocationsChanged, setSavedLocationsChanged] = useState(false);
+
+  // shows search or save errors
   const [error, setError] = useState(null);
 
+  // called when user searches for a city
   const handleSearch = async (city) => {
     try {
       setError(null);
       const res = await fetchWeatherByCity(city);
       const raw = res.data;
 
+      // normalizing data to match SQL DB format
       const normalizedData = {
         location: raw.name,
         temp: Math.round(raw.main.temp),
@@ -33,11 +41,12 @@ function Home() {
     }
   };
 
+  // save a searched city to the user's list
   const handleSaveLocation = async () => {
     if (!weatherData || !username) return;
     try {
       await saveLocation(username, weatherData.location);
-      setSavedLocationsChanged(prev => !prev);
+      setSavedLocationsChanged(prev => !prev); // triggers refresh
     } catch (err) {
       setError('Failed to save location.');
     }
@@ -51,6 +60,7 @@ function Home() {
         <div className="user-info">
           {username ? (
             <>
+              {/* show username and signout if logged in */}
               <span className="username-badge">{username}</span>
               <button className="signout-button" onClick={signOut}>Sign Out</button>
             </>
@@ -60,10 +70,12 @@ function Home() {
         </div>
       </header>
 
+      {/* city search input */}
       <SearchBar onSearch={handleSearch} />
 
       {error && <p className="error-message">{error}</p>}
 
+      {/* show weather card and save option if we have data */}
       {weatherData && (
         <>
           <CurrentWeather data={weatherData} />
@@ -75,6 +87,7 @@ function Home() {
         </>
       )}
 
+      {/* show saved cities if logged in */}
       {username && (
         <SavedLocations
           username={username}

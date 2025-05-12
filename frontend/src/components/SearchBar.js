@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
 
+  // submit search query to parent handler
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
