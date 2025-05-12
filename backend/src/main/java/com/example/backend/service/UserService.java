@@ -17,16 +17,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // insert or update user
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
+    // find user by username
     public Optional<User> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    // find user by phone number
     public Optional<User> findByPhone(String phone) {
         return userRepository.findByPhone(phone);
     }
-
 }

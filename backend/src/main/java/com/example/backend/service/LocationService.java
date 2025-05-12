@@ -18,6 +18,7 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
+    // don't save duplicates
     public Location saveLocation(Location location) {
         Optional<Location> existing = locationRepository
                 .findByUsernameAndLocation(location.getUsername(), location.getLocation());
@@ -25,14 +26,17 @@ public class LocationService {
         return existing.isPresent() ? null : locationRepository.save(location);
     }
 
+    // get all locations saved by a user
     public List<Location> findLocationsByUsername(String username) {
         return locationRepository.findByUsername(username);
     }
 
+    // get one by its ID
     public Optional<Location> findLocationById(int id) {
         return locationRepository.findById(id);
     }
 
+    // delete by user and location name
     public void deleteLocation(String username, String location) {
         locationRepository
                 .findByUsernameAndLocation(username, location)

@@ -18,7 +18,7 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws Exception {
-        // Resolve the relative path based on current working directory
+        // build absolute path and load Firebase credentials
         File file = new File(relativePath).getCanonicalFile();
         FileInputStream serviceAccount = new FileInputStream(file);
 
@@ -26,6 +26,7 @@ public class FirebaseConfig {
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
 
+        // only init if no Firebase app is already running
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }

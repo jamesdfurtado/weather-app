@@ -14,6 +14,7 @@ public class DotenvInitializer implements ApplicationListener<ApplicationEnviron
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
         Dotenv dotenv = Dotenv.load();
 
+        // manually inject .env vars into Spring's environment
         Map<String, Object> envVars = new HashMap<>();
         envVars.put("DB_USER", dotenv.get("DB_USER"));
         envVars.put("DB_PASSWORD", dotenv.get("DB_PASSWORD"));

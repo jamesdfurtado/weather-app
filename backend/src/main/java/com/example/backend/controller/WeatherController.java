@@ -15,6 +15,7 @@ public class WeatherController {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    // fetch weather data from OpenWeatherMap
     @GetMapping
     public ResponseEntity<?> getWeather(@RequestParam String city) {
         String apiKey = dotenv.get("WEATHER_API_KEY");

@@ -19,7 +19,7 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    // Save a location for a user
+    // save a location to the DB
     @PostMapping("/save")
     public ResponseEntity<?> saveLocation(@RequestBody Location location) {
         if (location.getUsername() == null || location.getLocation() == null) {
@@ -34,7 +34,7 @@ public class LocationController {
         return ResponseEntity.ok(saved);
     }
 
-    // Get all saved locations for a user
+    // return all locations saved for a user
     @GetMapping("/user/{username}")
     public ResponseEntity<?> getLocationsByUsername(@PathVariable String username) {
         if (username == null || username.trim().isEmpty()) {
@@ -45,7 +45,7 @@ public class LocationController {
         return ResponseEntity.ok(locations);
     }
 
-    // Delete a location by username and location name
+    // remove a specific location
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteLocation(@RequestBody Location location) {
         if (location.getUsername() == null || location.getLocation() == null) {

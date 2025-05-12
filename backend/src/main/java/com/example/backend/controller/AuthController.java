@@ -18,7 +18,7 @@ public class AuthController {
     @Autowired private UserService userService;
     @Autowired private PasswordEncoder passwordEncoder;
 
-    /* ---------- SIGNUP ---------- */
+    // signup with Firebase ID token + username/password
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, String> body) {
         String username = body.get("username");
@@ -49,7 +49,7 @@ public class AuthController {
         }
     }
 
-    /* ---------- SIGNIN (Step 1: Password Check) ---------- */
+    // step 1: validate password
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Map<String, String> body) {
         String username = body.get("username");
@@ -70,7 +70,7 @@ public class AuthController {
         ));
     }
 
-    /* ---------- VERIFY LOGIN (Step 2: Firebase SMS ID Token) ---------- */
+    // step 2: validate phone with Firebase token
     @PostMapping("/verify-login")
     public ResponseEntity<?> verifyLogin(@RequestBody Map<String, String> body) {
         String username = body.get("username");
@@ -88,7 +88,6 @@ public class AuthController {
             if (!user.getPhone().equals(phoneFromToken))
                 return ResponseEntity.badRequest().body("Phone number does not match");
 
-            // Optionally: update user.lastLogin, session, etc.
             return ResponseEntity.ok(Map.of(
                     "message", "User successfully signed in.",
                     "username", username

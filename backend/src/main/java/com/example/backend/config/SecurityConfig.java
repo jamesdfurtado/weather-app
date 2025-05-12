@@ -15,6 +15,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+    // sets up global security rules
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -27,10 +28,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // CORS config for frontend requests
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000")); // ✅ use pattern instead
+        config.setAllowedOriginPatterns(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

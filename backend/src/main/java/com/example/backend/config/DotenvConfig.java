@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DotenvConfig {
 
+    // lets us autowire Dotenv anywhere
     @Bean
     public Dotenv dotenv() {
         return Dotenv.configure()
