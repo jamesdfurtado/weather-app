@@ -52,27 +52,13 @@ git clone https://github.com/yourusername/weather-app.git
 cd weather-app
 ```
 
-### 2. Frontend Setup
-```bash
-cd frontend
-npm install
-```
-
-Create a .env file based on .env.example and add your Firebase project credentials and API base URL.
-
-Then start the React dev server:
-
-```bash
-npm start
-```
-
-### 3. Database Setup
+### 2. Database Setup
 
 Open MySQL Workbench
 
 Connect to your local MySQL server and run the script found in "sql/".
 
-### 4. Firebase Setup (Phone Auth)
+### 3. Firebase Setup (Phone Auth)
 
 Go to Firebase Console
 
@@ -92,7 +78,7 @@ backend/firebase.json
 
 Update your backend .env file (see .env.example) with:
 
-### 5. Backend Setup
+### 4. Backend Setup
 
 ```bash
 cd backend
@@ -105,6 +91,20 @@ mvn spring-boot:run
 ```
 
 Backend will start on http://localhost:8080.
+
+### 5. Frontend Setup
+```bash
+cd frontend
+npm install
+```
+
+Create a .env file based on .env.example and add your Firebase project credentials and API base URL.
+
+Then start the React dev server:
+
+```bash
+npm start
+```
 
 ### Folder Structure
 ```
