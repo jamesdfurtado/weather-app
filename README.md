@@ -1,117 +1,137 @@
-# Weather App
+# 🌤️ Weather App
 
-A full-stack weather app! :)
+A full-stack weather app!
+
+Users can sign up with secure 2FA and password hashing.
+
+Current forecasts for cities can be viewed, and favorite locations can be saved for easy access.
+
+This project was built to explore full-stack development with a focus on clean UI, real-time API interaction, and secure user data handling.
 
 ---
 
-## My Stack
+## Tech Stack
 
-- **Frontend**: React.js
-- **Backend**: Java Spring Boot
-- **Database**: MySQL
-- **API**: OpenWeatherMap API
-  
+**Frontend:** React.js  
+**Backend:** Java Spring Boot  
+**Database:** MySQL  
+**Authentication:** Firebase Phone Auth  
+**Weather Data:** OpenWeatherMap API
+
 ---
 
 ## Features
 
-- **Search for Weather**: Look up the current weather by city name.
-- **Location-based Weather**: Automatically fetch weather data for your current location.
-- **User Authentication**: Sign up or sign in to save and manage your favorite locations.
-- **Saved Locations**: View saved locations as tabs and switch between them to display weather instantly.
-- **Responsive Design**: Adaptable for various screen sizes.
-
+- **Search by City:** Get current weather by typing any city name
+- **Saved Locations:** Save and quickly switch between favorite cities
+- **Phone Auth:** Secure login/signup with SMS via Firebase
+- **Weather API:** Powered by OpenWeatherMap
+- **MySQL Database:** Saves user/location data
+  
 ---
 
-## Installation Guide
+## Setup Guide
 
 ### Prerequisites
 
-1. **Node.js**: Install Node.js for running the frontend.
-2. **Java**: Install Java Development Kit (JDK) for the backend.
-3. **Maven**: Install Maven for running the backend
-4. **MySQL**: Install MySQL Server and MySQL Workbench.
-5. **API Key**: Obtain an API key from [OpenWeatherMap](https://openweathermap.org/api).
+Make sure you have these installed before you begin:
 
-### Steps
+- Node.js
+- Java JDK 17+
+- Maven
+- MySQL Server + Workbench
+- [OpenWeatherMap API Key](https://openweathermap.org/api)
+- [Firebase Console Account](https://console.firebase.google.com/)
 
-#### 1. Clone the Repository
+---
+
+### 1. Clone the Repo
 
 ```bash
 git clone https://github.com/yourusername/weather-app.git
 cd weather-app
 ```
 
-#### 2. Frontend Setup
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+```
 
-1. Navigate to the `frontend` folder:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Add the OpenWeatherMap API key in `ApiCall.js`.
-4. Start the React app:
-   ```bash
-   npm start
-   ```
+Create a .env file based on .env.example and add your Firebase project credentials and API base URL.
 
-#### 3. Database Setup
+Then start the React dev server:
 
-1. Open MySQL Workbench and click on your Local Instance (localhost:3306).
-2. Create the database schema:
-   ```sql
-   CREATE DATABASE weather_app_db;
-   ```
-3. Tables are automatically created by the backend on first run.
-   
+```bash
+npm start
+```
 
-#### 4. Backend Setup
+### 3. Database Setup
 
-1. Navigate to the `backend/src/main/resources` folder:
-   ```bash
-   cd ../backend/src/main/resources
-   ```
-2. Update `application.properties` with your MySQL credentials:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/weather_app_db
-   spring.datasource.username=your_mysql_username
-   spring.datasource.password=your_mysql_password
-   spring.jpa.hibernate.ddl-auto=update
-   ```
-3. Navigate back to the `backend` folder:
-4. Build and run the backend:
-   ```bash
-   mvn spring-boot:run
-   ```
+Open MySQL Workbench
 
----
+Connect to your local MySQL server and run the script found in "sql/".
 
-## Usage
+### 4. Firebase Setup (Phone Auth)
 
-1. Visit the frontend at `http://localhost:3000`.
-2. Use the search bar to look up weather information.
-3. Sign up to save your favorite locations.
-4. Saved locations appear as tabs; click on them to view weather instantly.
+Go to Firebase Console
 
----
+Create a new project
 
-## Folder Structure
+Add a web app to get your API keys (used in frontend .env)
 
+Enable Phone Authentication under "Authentication" → "Sign-in Method"
+
+Generate a Service Account JSON under "Project Settings" → "Service Accounts"
+
+Download the JSON and move it to the backend folder as:
+
+```bash
+backend/firebase.json
+```
+
+Update your backend .env file (see .env.example) with:
+
+### 5. Backend Setup
+
+```bash
+cd backend
+```
+
+Make sure firebase.json is in this directory. Then run:
+
+```bash
+mvn spring-boot:run
+```
+
+Backend will start on http://localhost:8080.
+
+### Folder Structure
 ```
 weather-app/
-|-- frontend/      # React frontend
-|-- backend/       # Java Spring Boot backend
-|-- README.md      # Project documentation
+│
+├── frontend/            # React frontend (port 3000)
+│   └── .env             # Frontend env template
+│
+├── backend/             # Spring Boot backend (port 8080)
+│   └── firebase.json    # Firebase service account (not committed)
+│   └── .env             # Backend env template
+│
+└── sql/
 ```
 
----
+### Usage
+
+Open http://localhost:3000
+
+Search a city to view current weather
+
+Sign up with phone number (You'd have to either enable billing in firebase or add "test" numbers to simulate the process)
+
+Save cities to your account for quick access
 
 ---
 
-## Contact
-
-If you have any questions or feedback, please contact me at [jamesdfurtado@gmail.com](mailto:jamesdfurtado@gmail.com).
-
+### Contact
+Built by James Furtado
+Feel free to reach out with questions, ideas, or feedback. jamesdfurtado@gmail.com
