@@ -1,51 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { getSavedLocations, deleteLocation } from '../api/weather';
 
-const SavedLocations = ({ username, savedLocationsChanged, onSearch }) => {
-  const [savedLocations, setSavedLocations] = useState([]);
+function SavedLocations({ username, onSearch, refreshTrigger }) {
+  const [locations, setLocations] = useState([]);
 
-  // Fetch saved locations whenever the username or savedLocationsChanged prop changes
+  // re-fetch saved locations when username or trigger changes
   useEffect(() => {
-    if (username !== 'Guest') {
-      axios.get(`http://localhost:8080/api/locations/user/${username}`)
-        .then(response => {
-          setSavedLocations(response.data);  // Set retrieved locations in state
-        })
-        .catch(error => {
-          console.error('Error fetching saved locations:', error);
-        });
-    }
-  }, [username, savedLocationsChanged]); // Re-fetch when savedLocationsChanged changes
+    if (!username) return;
 
-  // Handle deleting a location
-  const handleDeleteLocation = (locationName) => {
-    axios.delete('http://localhost:8080/api/locations/delete', {
-      data: { username: username, location: locationName }
-    })
-      .then(() => {
-        setSavedLocations(savedLocations.filter(location => location.location !== locationName)); // Remove deleted location from state
-      })
-      .catch(error => {
-        console.error('Error deleting location:', error);
-      });
+    getSavedLocations(username)
+      .then((res) => setLocations(res.data))
+      .catch(() => {}); // silent fail for now
+  }, [username, refreshTrigger]);
+
+  // handle delete button press
+  const handleDelete = async (locationName) => {
+    try {
+      await deleteLocation(username, locationName);
+      setLocations((prev) => prev.filter((loc) => loc.location !== locationName));
+    } catch {}
   };
 
   return (
-    <div>
-      {savedLocations.length > 0 ? (
-        <div className="saved-locations-tabs">
-          {savedLocations.map((location) => (
-            <div key={location.id} className="saved-location">
-              <span onClick={() => onSearch(location.location)}>{location.location}</span> {/* Trigger search on click */}
-              <button onClick={() => handleDeleteLocation(location.location)}>X</button>
-            </div>
-          ))}
-        </div>
-      ) : (
+    <div className="saved-locations">
+      <h3>Saved Locations</h3>
+      {locations.length === 0 ? (
         <p>No saved locations.</p>
+      ) : (
+        <ul>
+          {locations.map((loc) => (
+            <li key={loc.id}>
+              {/* clicking the location re-triggers a search */}
+              <span onClick={() => onSearch(loc.location)}>{loc.location}</span>
+              <button onClick={() => handleDelete(loc.location)}>X</button>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
-};
+}
 
 export default SavedLocations;

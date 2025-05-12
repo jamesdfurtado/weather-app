@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 function SearchBar({ onSearch }) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [query, setQuery] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent the form from refreshing the page
-    if (onSearch) {
-      onSearch(searchQuery); // Call the provided callback with the search query
+  // submit search query to parent handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      onSearch(query.trim());
+      setQuery('');
     }
-    setSearchQuery(""); // Clear the input field after submission
   };
 
   return (
@@ -16,13 +17,11 @@ function SearchBar({ onSearch }) {
       <input
         type="text"
         placeholder="Search for a city..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         className="search-input"
       />
-      <button type="submit" className="search-button">
-        Search
-      </button>
+      <button type="submit">Search</button>
     </form>
   );
 }

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/locations")
@@ -20,35 +19,40 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    // Endpoint to save a location for a user
+    // save a location to the DB
     @PostMapping("/save")
-    public ResponseEntity<Location> saveLocation(@RequestBody Location location) {
-        Location savedLocation = locationService.saveLocation(location);
-        if (savedLocation == null) {
-            return ResponseEntity.status(400).body(null);  // Location already exists for the user
+    public ResponseEntity<?> saveLocation(@RequestBody Location location) {
+        if (location.getUsername() == null || location.getLocation() == null) {
+            return ResponseEntity.badRequest().body("Username and location are required.");
         }
-        return ResponseEntity.ok(savedLocation);
+
+        Location saved = locationService.saveLocation(location);
+        if (saved == null) {
+            return ResponseEntity.status(409).body("Location already saved.");
+        }
+
+        return ResponseEntity.ok(saved);
     }
 
-    // Endpoint to retrieve all locations for a user
+    // return all locations saved for a user
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<Location>> getLocationsByUsername(@PathVariable String username) {
+    public ResponseEntity<?> getLocationsByUsername(@PathVariable String username) {
+        if (username == null || username.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username is required.");
+        }
+
         List<Location> locations = locationService.findLocationsByUsername(username);
         return ResponseEntity.ok(locations);
     }
 
-    // Endpoint to retrieve a specific location by its ID (if still required)
-    @GetMapping("/{id}")
-    public ResponseEntity<Location> getLocationById(@PathVariable Integer id) {
-        Optional<Location> location = locationService.findLocationById(id);
-        return location.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Endpoint to delete a location by its username and location name
+    // remove a specific location
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteLocation(@RequestBody Location location) {
+        if (location.getUsername() == null || location.getLocation() == null) {
+            return ResponseEntity.badRequest().body("Username and location are required.");
+        }
+
         locationService.deleteLocation(location.getUsername(), location.getLocation());
         return ResponseEntity.ok("Location deleted successfully!");
     }
-
 }

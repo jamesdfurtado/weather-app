@@ -31,3 +31,20 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### environment ###
+.env
+
+### Logs ###
+*.log
+
+### Compiled Java classes ###
+*.class
+
+### Misc ###
+*.tmp
+.DS_Store
+Thumbs.db
+
+### Firebase ###
+firebase.json
