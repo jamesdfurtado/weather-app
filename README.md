@@ -1,40 +1,72 @@
-# 🌤️ Weather App
+# 🌤️ Weather App - Secure Full Stack Weather Service
 
-A full-stack weather app!
+My **Weather App** is a full-stack weather forecasting application that allows users to view real-time weather data, save favorite locations, and securely sign up with SMS-based two-factor authentication.
 
-Users can sign up with secure 2FA and password hashing.
-
-Current forecasts for cities can be viewed, and favorite locations can be saved for easy access.
-
-This project was built to explore full-stack development with a focus on clean UI, real-time API interaction, and secure user data handling.
+I built this project to strengthen my full-stack development skills — with a focus on React, RESTful API development, real-world security features, and database management.
 
 ---
 
-## Tech Stack
+## 💪 Motivation
 
-**Frontend:** React.js  
-**Backend:** Java Spring Boot  
-**Database:** MySQL  
-**Authentication:** Firebase Phone Auth  
-**Weather Data:** OpenWeatherMap API
+* Explore full-stack development using React and Spring Boot.
+* Build and learn about REST APIs.
+* Integrate real-time third-party APIs (OpenWeatherMap).
+* Implement secure user authentication with Firebase and 2FA.
+* Practice full environment setup with backend, frontend, and database coordination.
 
 ---
 
-## Features
+## ⚙️ Tech Stack
 
-- **Search by City:** Get current weather by typing any city name
-- **Saved Locations:** Save and quickly switch between favorite cities
-- **Phone Auth:** Secure login/signup with SMS via Firebase
-- **Weather API:** Powered by OpenWeatherMap
-- **MySQL Database:** Saves user/location data
-  
+- **Frontend:** React.js
+- **Backend:** Java Spring Boot
+- **Database:** MySQL
+- **Authentication:** Firebase Phone Auth
+- **Weather Data:** OpenWeatherMap API
+
+--- 
+
+## 🛠️ Features & Demonstration
+
+
+### 🌤️ Homepage – Live Weather + Saved Locations
+
+Here is what the homepage looks like!
+
+Users can search any city's weather to get retrieve live forecasting via the OpenWeatherMap API.
+
+Logged-in users can save locations for quick checks later.
+
+![homepage](pics/homepage.jpg)
+
 ---
 
-## Setup Guide
+### 🔐 Secure Authentication
 
-### Prerequisites
+Users sign up with a username, password, and phone number.
 
-Make sure you have these installed before you begin:
+The phone number and password are SHA-256 encrypted within the MySQL database.
+
+![auth](pics/auth.jpg)
+
+
+---
+
+### 📱 Two-Factor Authentication
+
+Upon login/signup, users are sent a verification code via SMS, using Firebase Phone Auth.
+
+![sms](pics/sms.jpg)
+
+*I know, I know-- it isn't that pretty... But it works!*
+
+---
+
+## 📦 Installation and Usage
+
+**Note:** You’ll need API keys from both Firebase and OpenWeatherMap.
+
+### 1. Prerequisites
 
 - Node.js
 - Java JDK 17+
@@ -45,93 +77,80 @@ Make sure you have these installed before you begin:
 
 ---
 
-### 1. Clone the Repo
+### 2. Clone the Repository
 
 ```bash
 git clone https://github.com/yourusername/weather-app.git
 cd weather-app
 ```
 
-### 2. Database Setup
+---
 
-Open MySQL Workbench
+### 3. Database Setup
 
-Connect to your local MySQL server and run the script found in "sql/".
+- Open MySQL Workbench
+- Connect to your MySQL server
+- Run the SQL script in `/sql/` to initialize schema and tables
 
-### 3. Firebase Setup (Phone Auth)
+---
 
-Go to Firebase Console
+### 4. Firebase Setup (Phone Auth)
 
-Create a new project
-
-Add a web app to get your API keys (used in frontend .env)
-
-Enable Phone Authentication under "Authentication" → "Sign-in Method"
-
-Generate a Service Account JSON under "Project Settings" → "Service Accounts"
-
-Download the JSON and move it to the backend folder as:
+1. Create a new project in Firebase Console  
+2. Enable Phone Authentication  
+3. Add a web app to retrieve credentials  
+4. Generate a service account JSON file  
+5. Save it as:
 
 ```bash
 backend/firebase.json
 ```
 
-Update your backend .env file (see .env.example) with:
+6. Update your backend `.env` file with required credentials (see `.env.example`)
 
-### 4. Backend Setup
+---
+
+### 5. Backend Setup
 
 ```bash
 cd backend
-```
-
-Make sure firebase.json is in this directory. Then run:
-
-```bash
 mvn spring-boot:run
 ```
 
-Backend will start on http://localhost:8080.
+- App runs on: http://localhost:8080
 
-### 5. Frontend Setup
+---
+
+### 6. Frontend Setup
+
 ```bash
 cd frontend
 npm install
 ```
 
-Create a .env file based on .env.example and add your Firebase project credentials and API base URL.
 
-Then start the React dev server:
 
 ```bash
 npm start
 ```
 
-### Folder Structure
-```
-weather-app/
-│
-├── frontend/            # React frontend (port 3000)
-│   └── .env             # Frontend env template
-│
-├── backend/             # Spring Boot backend (port 8080)
-│   └── firebase.json    # Firebase service account (not committed)
-│   └── .env             # Backend env template
-│
-└── sql/
-```
-
-### Usage
-
-Open http://localhost:3000
-
-Search a city to view current weather
-
-Sign up with phone number (You'd have to either enable billing in firebase or add "test" numbers to simulate the process)
-
-Save cities to your account for quick access
+- Frontend runs on: http://localhost:3000
 
 ---
 
-### Contact
-Built by James Furtado
-Feel free to reach out with questions, ideas, or feedback. jamesdfurtado@gmail.com
+### 🧪 Usage
+
+- Open the frontend URL
+- Sign up with a phone number
+- Enter the SMS code
+- Search any city for weather
+- Save locations to your account
+
+---
+
+## 👤 Author
+
+James Furtado  
+[jamesdfurtado@gmail.com](mailto:jamesdfurtado@gmail.com)  
+[linkedin.com/in/james-furtado](https://linkedin.com/in/james-furtado)
+
